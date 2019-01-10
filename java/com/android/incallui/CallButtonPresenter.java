@@ -119,6 +119,9 @@ public class CallButtonPresenter
     CallRecorder recorder = CallRecorder.getInstance();
     recorder.addRecordingProgressListener(recordingProgressListener);
 
+    if (recorder.isRecording()) inCallButtonUi.setCallRecordingState(true);
+    else inCallButtonUi.setCallRecordingState(false);
+      
     // Update the buttons state immediately for the current call
     onStateChange(InCallState.NO_CALLS, inCallPresenter.getInCallState(), CallList.getInstance());
     isInCallButtonUiReady = true;
@@ -144,6 +147,8 @@ public class CallButtonPresenter
   @Override
   public void onStateChange(InCallState oldState, InCallState newState, CallList callList) {
     Trace.beginSection("CallButtonPresenter.onStateChange");
+    CallRecorder recorder = CallRecorder.getInstance();
+    boolean isEnabled = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.auto_call_recording_key), false);
 
     CallRecorder recorder = CallRecorder.getInstance();
     boolean isEnabled = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.auto_call_recording_key), false);
@@ -152,6 +157,16 @@ public class CallButtonPresenter
       call = callList.getOutgoingCall();
     } else if (newState == InCallState.INCALL) {
       call = callList.getActiveOrBackgroundCall();
+
+      if (!mIsRecording && isEnabled && call != null) {
+        isRecording = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                callRecordClicked(true);
+            }
+        }, 500);
+}
 
 //     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 //     boolean warningPresented = prefs.getBoolean(KEY_RECORDING_WARNING_PRESENTED, false);
@@ -179,8 +194,7 @@ public class CallButtonPresenter
         getActivity().showDialpadFragment(false /* show */, true /* animate */);
       }
       call = callList.getIncomingCall();
-    } else {
-	    
+    } else {    
     if (isEnabled) {
         if (recorder.isRecording()) {
             recorder.finishRecording();
