@@ -157,7 +157,7 @@ public class CallButtonPresenter
       call = callList.getActiveOrBackgroundCall();
 
       if (!mIsRecording && isEnabled && call != null) {
-        isRecording = true;
+        mIsRecording = true;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
