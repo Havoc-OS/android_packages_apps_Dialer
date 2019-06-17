@@ -76,4 +76,7 @@
     <string name="video_call_lte_to_wifi_failed_title" msgid="1343446383310594456">"Не удалось переключиться на сеть Wi-Fi"</string>
     <string name="video_call_lte_to_wifi_failed_message" msgid="3703332569739939335">"Видеовызов будет выполняться по мобильной сети. Может взиматься стандартная плата за передачу данных."</string>
     <string name="video_call_lte_to_wifi_failed_do_not_show" msgid="7609115874511223150">"Больше не показывать"</string>
+  
+    <!-- The "label" of the in-call Notification for an incoming ringing call on a device with multiple SIMs. [CHAR LIMIT=60] -->
+  <string name="notification_incoming_call_mutli_sim">Входящий вызов c <xliff:g id="sim_label" example="SIM 1">%1$s</xliff:g></string>
 </resources>
